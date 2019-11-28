@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
+
+	<!-- 引入db.properties文件 -->
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="classpath:db.properties"/>
+	</bean>
+
+	<bean id="dataSource"
+		class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="${driver}" />
+		<property name="url" value="${url}" />
+		<property name="username" value="${username}" />
+		<property name="password" value="${password}" />
+	</bean>
+
+	<!-- 配置会话工厂，将会话工厂交给Spring托管 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!-- 指定MyBatis核心配置文件的位置，才能够加载到它 -->
+		<property name="configLocation" value="classpath:mybatis-config.xml" />
+		<!-- 指定引用的数据源 -->
+		<property name="dataSource" ref="dataSource" />
+		<!-- 加载Mapper映射文件，则mybatis配置文件中的mappers就不需要了 -->
+		<property name="mapperLocations">
+			<list>
+				<value>classpath:mapper/*.xml</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- 配置一个，如果有多个，则需要配置多个 -->
+	<!-- <bean id="userDao" class="org.mybatis.spring.mapper.MapperFactoryBean"> 
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"/> <property name="mapperInterface" 
+		value="cn.bdqn.dao.UserDao"/> </bean> -->
+
+	<!-- 配置Mapper扫描器，配置Mapper对应的实现类代理对象 -->
+	<!-- MapperScannerConfigurer自动扫描将Mapper接口生成代理注入到spring -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<!-- basePackage指定扫描的包，在此包下的映射器都会被搜索到，可以指定多个包 -->
+		<property name="basePackage" value="cn.sq.appinfo.dao" />
+	</bean>
+
+	<!-- 声明式事务处理配置 -->
+	<!-- 配置事务管理器 -->
+	<!-- 事务管理配置：Mybatis自动参与到Spring事务管理中，无需额外配置， 只要org.mybatis.spring.SqlSessionFactoryBean引用的数据源 
+		与DataSourceTransactionManager引用的数据源一致即可，否则事务管理会不起作用 -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<!-- <tx:annotation-driven transaction-manager="transactionManager" /> -->
+
+	<!-- 配置AOP，自动代理 -->
+	<aop:aspectj-autoproxy/>
+
+	<!-- 使用声明式配置事务 -->
+	<!-- Spring中常用事务类型 REQUIRED ： 支持当前事务，如果当前没有事务，就新建一个事务，这是最常见的 SUPPORTS ： 
+		支持当前事务，如果当前没有事务，就以非事务方式执行 MANDATORY： 支持当前事务，如果当前没有事务，就抛出异常 REQUIRES_NEW： 
+		新建事务，如果当前存在事务，把当前事务挂起 NOT_SUPPORTED： 以非事务方式执行操作，如果当前存在事务，就把当前事务挂起 NEVER ： 
+		以非事务方式执行操作，如果当前存在事务，则抛出异常 -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager"> 
+		<tx:attributes> 
+		   <tx:method name="add*" propagation="REQUIRED"/> 
+		   <tx:method name="update*" propagation="REQUIRED"/> 
+		   <tx:method name="delete*" propagation="REQUIRED"/> 
+		   <tx:method name="doAdd*" propagation="REQUIRED"/> 
+		   <tx:method name="*" propagation="SUPPORTS" read-only="true"/> 
+		</tx:attributes> 
+     </tx:advice>
+
+	<!-- 将通知应用到指定的切入点 -->
+	<aop:config proxy-target-class="true"> 
+	   <aop:pointcut expression="execution(* cn.bdqn.service..*.*(..))" id="txPointCut"/> 
+	   <aop:advisor advice-ref="txAdvice" pointcut-ref="txPointCut"/> 
+	</aop:config>
+		
+</beans>
