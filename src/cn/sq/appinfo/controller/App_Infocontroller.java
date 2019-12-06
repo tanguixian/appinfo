@@ -279,8 +279,8 @@ public class App_Infocontroller {
 	@RequestMapping("/updateStatus")
 	@ResponseBody
 	public String updateStatus(Integer status, Integer id,HttpSession session) {
-		//Integer row = app_infoservice.updatestatus(status, id);
-		Integer row = app_infoservice.updatestatusById(status, id);
+		Integer row = app_infoservice.updatestatus(status, id);
+		
 		Map map = (Map) session.getAttribute("appSelectInfoMap1");
 		Page page = (Page) map.get("page");
 		page.setRows(app_infoservice.Count(map));
