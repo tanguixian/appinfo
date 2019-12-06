@@ -10,16 +10,8 @@
              <div class="clearfix"></div>
       </div>
       <div class="x_content">
-	  <!-- <div class="item form-group">
-               <label class="control-label col-md-3 col-sm-3 col-xs-12" ></label>
-               <div class="col-md-6 col-sm-6 col-xs-12">
-                 <form action="uploadlogo" class="dropzone" style="height:100px;">
-                 </form>
-            <div class="clearfix"></div>
-         </div>
-       </div> -->
            <div class="clearfix"></div>
-        <form class="form-horizontal form-label-left" action="appinfoaddsave" method="post" enctype="multipart/form-data">
+        <form class="form-horizontal form-label-left" action="/AppInfoSystem/appinfo/AddAppinfo.do" method="post" enctype="multipart/form-data">
           <div class="item form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">软件名称 <span class="required">*</span>
             </label>
@@ -121,7 +113,7 @@
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">LOGO图片 <span class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-            <input type="file" class="form-control col-md-7 col-xs-12" name="a_logoPicPath"  required="required" id="a_logoPicPath"/>
+            <input type="file" class="form-control col-md-7 col-xs-12" name="uploadFile"  required="required" id="a_logoPicPath"/>
             ${fileUploadError }
             </div>
           </div>

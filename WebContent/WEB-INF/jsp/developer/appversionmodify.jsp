@@ -84,7 +84,7 @@
         </div>
         <div class="x_content" style="display: block;">
          <br>
-        <form class="form-horizontal form-label-left" action="appversionmodifysave" method="post" enctype="multipart/form-data">
+        <form class="form-horizontal form-label-left" action="/AppInfoSystem/app_version/updateAppversion.do" method="post" enctype="multipart/form-data">
            <input type="hidden" name="id" id="id" value="${appVersion.id}">
            <input type="hidden" name="appId" id="appId" value="${appVersion.appId}">
           <div class="item form-group">
@@ -128,7 +128,7 @@
             <input type="hidden" id="apkLocPath" name="apkLocPath" value="${appVersion.apkLocPath}"/>
             <input type="hidden" id="apkFileName" name="apkFileName" value="${appVersion.apkFileName}"/>
 			<div id="uploadfile" style="display: none">
-				<input id="attach" type="file" class="form-control col-md-7 col-xs-12" name="attach">
+				<input id="attach" type="file" class="form-control col-md-7 col-xs-12" name="uploadFile">
 				<p><span style="color:red;font-weight: bold;">*注：1、大小不得超过500m.2、文件类型：apk</span></p>
 			</div>
 			<div id="apkFile"></div>

@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 /**
  * 
- * ¿ª·¢ÕßÊµÌåÀà
+ * å¼€å‘è€…å®ä½“ç±»
  * 
  */
 public class Dev_User implements Serializable{
@@ -12,25 +12,25 @@ public class Dev_User implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	//Ö÷¼üid
+	//ä¸»é”®id
 	private Integer id;
-	//¿ª·¢ÕßÕÊºÅ
+	//å¼€å‘è€…å¸å·
 	private String devCode;
-	//¿ª·¢ÕßÃû³Æ
+	//å¼€å‘è€…åç§°
 	private String devName;
-	//¿ª·¢ÕßÃÜÂë
+	//å¼€å‘è€…å¯†ç 
 	private String devPassword;
-	//¿ª·¢Õßµç×ÓÓÊÏä
+	//å¼€å‘è€…ç”µå­é‚®ç®±
 	private String devEmail;
-	//¿ª·¢Õß¼ò½é
+	//å¼€å‘è€…ç®€ä»‹
 	private String devInfo;
-	//´´½¨Õß£¨À´Ô´ÓÚbackend_userÓÃ»§±íµÄÓÃ»§id£©
+	//åˆ›å»ºè€…ï¼ˆæ¥æºäºbackend_userç”¨æˆ·è¡¨çš„ç”¨æˆ·idï¼‰
 	private Integer createdBy;
-	//´´½¨Ê±¼ä
+	//åˆ›å»ºæ—¶é—´
 	private Date creationDate;
-	//¸üĞÂÕß£¨À´Ô´ÓÚbackend_userÓÃ»§±íµÄÓÃ»§id£©
+	//æ›´æ–°è€…ï¼ˆæ¥æºäºbackend_userç”¨æˆ·è¡¨çš„ç”¨æˆ·idï¼‰  
 	private Integer modifyBy;
-	//×îĞÂ¸üĞÂÊ±¼ä
+	//æœ€æ–°æ›´æ–°æ—¶é—´  
 	private Date modifyDate;
 	public Integer getId() {
 		return id;

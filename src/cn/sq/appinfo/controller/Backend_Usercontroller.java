@@ -17,13 +17,13 @@ public class Backend_Usercontroller {
 	@Resource
 	private Backend_Userservice backenduserservice;
 
-	// Ìø×ªÈ¥ÓÃ»§µÇÈëÒ³Ãæ
+	// é¡µé¢è·³è½¬
 	@RequestMapping("/befoerlogin")
 	public String befoerlogin() {
 		return "backendlogin";
 	}
 
-	// ÓÃ»§µÇÈë¹¦ÄÜ
+	// ç™»å…¥åŠŸèƒ½
 	@RequestMapping("/login")
 	public String login(String userCode, String userPassword, Model model, HttpSession session) {
 		Backend_User backend_User = this.backenduserservice.getByuserCodeAnduserPassword(userCode, userPassword);
@@ -31,16 +31,17 @@ public class Backend_Usercontroller {
 			session.setAttribute("userSession", backend_User);
 			return "backend/main";
 		} else {
-			model.addAttribute("error", "ÓÃ»§Ãû»òÃÜÂë´íÎó£¬ÇëÖØĞÂÊäÈë£¡");
+			model.addAttribute("error", "ç”¨æˆ·åæˆ–å¯†ç é”™è¯¯ï¼Œè¯·é‡æ–°è¾“å…¥ï¼");
 			return "backendlogin";
 		}
 
 	}
-	//×¢Ïú¹¦ÄÜ
+	//æ³¨é”€åŠŸèƒ½
 	@RequestMapping("/Cancellation")
 	public String Cancellation(HttpSession session) {
 		session.invalidate();
-		return "backendlogin";
+		return "redirect:/index.jsp";
 	}
+
 
 }

@@ -84,8 +84,8 @@
         </div>
         <div class="x_content" style="display: block;">
          <br>
-        <form class="form-horizontal form-label-left" action="addversionsave" method="post" enctype="multipart/form-data">
-           <input type="hidden" name="appId" name="appId" value="${appVersion.appId}">
+        <form class="form-horizontal form-label-left" action="/AppInfoSystem/app_version/addApp_version.do" method="post" enctype="multipart/form-data">
+           <input type="hidden" name="appId" value="${appId}">
           <div class="item form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">版本号 <span class="required">*</span>
             </label>
@@ -123,7 +123,7 @@
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">apk文件 <span class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-            <input type="file" class="form-control col-md-7 col-xs-12" name="a_downloadLink" id="a_downloadLink"  required="required"/>
+            <input type="file" class="form-control col-md-7 col-xs-12" name="uploadFile" id="a_downloadLink"  required="required"/>
             ${fileUploadError }
             </div>
           </div>

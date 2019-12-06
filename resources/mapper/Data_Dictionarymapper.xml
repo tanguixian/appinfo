@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="cn.sq.appinfo.dao.Data_Dictionarydao">
+  <!--	根据参数查询 data_dictionary 表中的数据 -->
+  	<select id="Statuslsit" resultType="Data_Dictionary">
+  		SELECT * FROM `data_dictionary` WHERE typeCode =#{typeCode}
+  	</select>
+  </mapper>

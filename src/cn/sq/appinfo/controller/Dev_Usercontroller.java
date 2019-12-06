@@ -1,5 +1,6 @@
 package cn.sq.appinfo.controller;
 
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
@@ -17,31 +18,31 @@ public class Dev_Usercontroller {
 	@Resource
 	private Dev_Userservice devuser;
 
-	// Ìø×ªÈ¥¿ª·¢ÕßµÇÈëÒ³Ãæ
+	// é¡µé¢è·³è½¬
 	@RequestMapping("/befoerlogin")
 	public String befoerlogin() {
 		return "devlogin";
 	}
 
-	// ÊµÏÖ¿ª·¢ÕßµÇÈë¹¦ÄÜ
+	// ç™»å…¥åŠŸèƒ½
 	@RequestMapping("/login")
 	public String login(String devCode, String devPassword, Model model, HttpSession session) {
 		Dev_User dev_User = devuser.getBydevCodeAnddevPassword(devCode, devPassword);
-		if (dev_User != null) {
+		if (dev_User != null) {  
 			session.setAttribute("devUserSession", dev_User);
 			return "developer/main";
 		} else {
-			model.addAttribute("error", "ÓÃ»§Ãû»òÃÜÂë´íÎó£¬ÇëÖØĞÂÊäÈë£¡");
+			model.addAttribute("error", "ç”¨æˆ·åæˆ–å¯†ç é”™è¯¯ï¼Œè¯·é‡æ–°è¾“å…¥ï¼");
 			return "devlogin";
 		}
 
 	}
 	
-	//×¢Ïú¹¦ÄÜ
+	//æ³¨é”€åŠŸèƒ½
 	@RequestMapping("/Cancellation")
 	public String Cancellation(HttpSession session) {
 		session.invalidate();
-		return "devlogin";
+		return "redirect:/index.jsp";
 	}
 
 }

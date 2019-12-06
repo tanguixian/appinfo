@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.sq.appinfo.dao.App_Versiondao">
+	<!--根据appid 查询app_version中的数据 -->
+	<select id="showVersionByAppId" resultType="app_Version">
+		SELECT *
+		FROM app_version AS av
+		INNER JOIN (SELECT id,softwareName AS appName FROM `app_info` ) AS a ON av.appId= a.`id`
+		INNER JOIN (SELECT valueId,valueName publishStatusName FROM `data_dictionary` WHERE typeCode = "PUBLISH_STATUS") pu ON av.`publishStatus` = pu.valueId
+		WHERE av.appId=#{appId}
+	</select>
+	<!-- 根据id删除app_version中的数据 -->
+	<delete id="DeleteApp_versionById">
+		delete from app_version where appId =#{id}
+	</delete>
+	<!--新增一个新的信息  -->
+	<insert id="AddApp_Version" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO `app_version`(appId,versionNo,versionInfo,publishStatus,downloadLink,versionSize,
+		createdBy,creationDate,modifyBy,apkLocPath,apkFileName)
+		VALUES(#{appId},#{versionNo},#{versionInfo},#{publishStatus},
+		#{downloadLink},#{versionSize},#{createdBy},#{creationDate},#{modifyDate},
+		#{apkLocPath},#{apkFileName})
+	</insert>
+	<!-- 根据vid查询数据 -->
+	<select id="showVersionById" resultType="app_Version">
+		SELECT * FROM `app_version` WHERE id =#{vid}
+	</select>
+	<!-- 根据id修改app_version的数据 -->
+	<update id="updateApp_Version">
+		update app_version set
+		<if test="versionSize!=null">
+			versionSize=#{versionSize},
+		</if>
+		<if test="publishStatus!=null">
+			publishStatus=#{publishStatus},
+		</if>
+		<if test="versionInfo!=null and versionInfo!=''">
+			versionInfo=#{versionInfo},
+		</if>
+		<if test="downloadLink !=null and downloadLink !=''">
+			downloadLink=#{downloadLink },
+		</if>
+		<if test="apkLocPath!=null and apkLocPath!=''">
+			apkLocPath=#{apkLocPath},
+		</if>
+		<if test="apkFileName!=null and apkFileName!=''">
+			apkFileName=#{apkFileName},
+		</if>
+		<if test="modifyBy!=null">
+			modifyBy=#{modifyBy},
+		</if>
+		modifyDate=now()
+		
+		where id=#{id}
+	</update>
+	
+</mapper>

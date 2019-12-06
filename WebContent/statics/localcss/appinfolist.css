@@ -15,4 +15,9 @@
 }
 .dropdown-menu{
 	min-width:105px;
+	z-index:999;
+}
+#dropdownmenu li{
+	z-index:9999999999;
+	width: 105px;
 }

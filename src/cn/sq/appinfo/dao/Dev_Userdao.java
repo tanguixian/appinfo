@@ -5,7 +5,7 @@ import org.apache.ibatis.annotations.Param;
 import cn.sq.appinfo.entity.Dev_User;
 
 public interface Dev_Userdao {
-	//根据参数查询数据
+	//鏍规嵁鍙傛暟鏌ヨ
 	public Dev_User getBydevCodeAnddevPassword(@Param("devCode")String devCode,@Param("devPassword")String devPassword);
 	
 }

@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.sq.appinfo.dao.App_Infodao">
+	<!-- 查询app_info表 条件为map -->
+	<select id="appinfolist" resultType="App_Info">
+		SELECT
+		i.id,
+		i.`softwareName`,
+		i.`APKName`,
+		i.`supportROM`,
+		i.`interfaceLanguage`,
+		i.`softwareSize`,
+		i.`updateDate`,
+		i.`devId`,
+		i.`appInfo`,
+		i.`status`,
+		i.`onSaleDate`,
+		i.`offSaleDate`,
+		i.`flatformId`,
+		i.`categoryLevel1`,
+		i.`categoryLevel2`,
+		i.`categoryLevel3`,
+		i.`downloads`,
+		i.`createdBy`,
+		i.creationDate,
+		i.`modifyBy`,
+		i.`modifyDate`,
+		i.`logoLocPath`,
+		i.`logoPicPath` ,
+		i.`versionId`,
+		category1.categoryName
+		categoryLevel1Name,
+		category2.categoryName
+		categoryLevel2Name,
+		category3.categoryName categoryLevel3Name,
+		app_status.valueName
+		statusName,
+		APP_FLATFORM.valueName flatformName,
+		u.`devName`,v.`versionNo`
+		FROM
+		`app_info` i
+		LEFT JOIN `app_version` v ON
+		i.`versionId` = v.`id`
+		INNER
+		JOIN `dev_user` u ON i.`devId` = u.`id`
+		INNER JOIN (SELECT * FROM
+		`data_dictionary` WHERE
+		typeCode="APP_STATUS")
+		app_status ON i.`status`
+		= app_status.valueId
+		INNER JOIN (SELECT * FROM `data_dictionary` WHERE
+		typeCode="APP_FLATFORM")
+		APP_FLATFORM ON i.`flatformId` =
+		APP_FLATFORM.valueId
+		INNER JOIN (SELECT * FROM `app_category` WHERE
+		parentId IS NULL) category1
+		ON i.`categoryLevel1` = category1.id
+		INNER
+		JOIN (SELECT * FROM `app_category` WHERE parentId =1 OR parentId = 2)
+		category2 ON i.`categoryLevel2` = category2.id
+		INNER JOIN (SELECT * FROM `app_category` WHERE parentId IS NOT NULL AND
+		parentId &lt;&gt; 1
+		AND parentId &lt;&gt; 2) category3 ON i.`categoryLevel3` =
+		category3.id
+		<where>
+			<if test="devId!=null">
+				and i.devId=#{devId}
+			</if>
+			<if test="softwareName !=null and softwareName!=''">
+				and softwareName like concat('%',#{softwareName},'%')
+			</if>
+			<if test="flatformId != null">
+				and i.flatformId = #{flatformId}
+			</if>
+			<if test="status != null">
+				and i.status = #{status}
+			</if>
+			<if test="categoryLevel1 != null">
+				and i.categoryLevel1 = #{categoryLevel1}
+			</if>
+			<if test="categoryLevel2 != null">
+				and i.categoryLevel2 = #{categoryLevel2}
+			</if>
+			<if test="categoryLevel3 != null">
+				and i.categoryLevel3 = #{categoryLevel3}
+			</if>
+
+		</where>
+		ORDER BY i.creationDate
+		limit #{page.first},#{page.pagesize}
+	</select>
+	
+	<!-- 查询总记录数 -->
+	<select id="Count" resultType="int">
+		select count(*) from `app_info` i
+		LEFT JOIN `app_version` v ON
+		i.`versionId` = v.`id`
+		INNER JOIN `dev_user` u ON i.`devId` = u.`id`
+		INNER JOIN (SELECT * FROM `data_dictionary` WHERE
+		typeCode="APP_STATUS")
+		app_status ON i.`status` = app_status.valueId
+		INNER JOIN (SELECT * FROM `data_dictionary` WHERE
+		typeCode="APP_FLATFORM")
+		APP_FLATFORM ON i.`flatformId` =
+		APP_FLATFORM.valueId
+		INNER JOIN (SELECT * FROM `app_category` WHERE
+		parentId IS NULL) category1
+		ON i.`categoryLevel1` = category1.id
+		INNER
+		JOIN (SELECT * FROM `app_category` WHERE parentId =1 OR parentId = 2)
+		category2 ON i.`categoryLevel2` = category2.id
+		INNER JOIN (SELECT *
+		FROM `app_category` WHERE parentId IS NOT NULL AND
+		parentId &lt;&gt; 1
+		AND parentId &lt;&gt; 2) category3 ON i.`categoryLevel3` =
+		category3.id
+
+		where 1=1
+		<if test="softwareName !=null and softwareName!=''">
+			and softwareName like concat('%',#{softwareName},'%')
+		</if>
+		<if test="flatformId != null">
+			and i.flatformId = #{flatformId}
+		</if>
+		<if test="status != null">
+			and i.status = #{status}
+		</if>
+		<if test="categoryLevel1 != null">
+			and i.categoryLevel1 = #{categoryLevel1}
+		</if>
+		<if test="categoryLevel2 != null">
+			and i.categoryLevel2 = #{categoryLevel2}
+		</if>
+		<if test="categoryLevel3 != null">
+			and i.categoryLevel3 = #{categoryLevel3}
+		</if>
+	</select>
+	<!-- 根据apkname查询是否重复 -->
+	<select id="validateAPKName" resultType="app_info">
+		select * from app_info where APKName=#{APKName}
+	</select>
+	<!-- 插入数据 -->
+	<insert id="AddAppInfo">
+		INSERT INTO `app_info`
+		(creationDate,devId,softwareName,APKName,supportROM,interfaceLanguage,softwareSize,downloads,flatformId,categoryLevel1,categoryLevel2,categoryLevel3,STATUS,appInfo,logoPicPath,logoLocPath)
+		VALUES(now(),#{devId},#{softwareName},#{APKName},#{supportROM},#{interfaceLanguage},#{softwareSize},#{downloads},#{flatformId},#{categoryLevel1},#{categoryLevel2},#{categoryLevel3},
+		#{status},#{appInfo},#{logoPicPath},#{logoLocPath});
+	</insert>
+	<!-- 根据id查询信息 -->
+	<select id="findAppInfoById" resultType="app_info">
+		SELECT
+		i.id,
+		i.`softwareName`,
+		i.`APKName`,
+		i.`supportROM`,
+		i.`interfaceLanguage`,
+		i.`softwareSize`,
+		i.`updateDate`,
+		i.`devId`,
+		i.`appInfo`,
+		i.`status`,
+		i.`onSaleDate`,
+		i.`offSaleDate`,
+		i.`flatformId`,
+		i.`categoryLevel1`,
+		i.`categoryLevel2`,
+		i.`categoryLevel3`,
+		i.`downloads`,
+		i.`createdBy`,
+		i.`modifyBy`,
+		i.`modifyDate`,
+		i.`logoLocPath`,
+		i.`logoPicPath` ,
+		i.`versionId`,
+		category1.categoryName
+		categoryLevel1Name,
+		category2.categoryName categoryLevel2Name,
+		category3.categoryName
+		categoryLevel3Name,
+		app_status.valueName
+		statusName,
+		APP_FLATFORM.valueName flatformName,
+		u.`devName`,v.`versionNo`
+		FROM
+		`app_info` i
+		LEFT JOIN `app_version` v ON
+		i.`versionId` = v.`id`
+		INNER
+		JOIN `dev_user` u ON i.`devId` = u.`id`
+		INNER JOIN (SELECT * FROM
+		`data_dictionary` WHERE
+		typeCode="APP_STATUS")
+		app_status ON i.`status`
+		= app_status.valueId
+		INNER JOIN (SELECT * FROM `data_dictionary` WHERE
+		typeCode="APP_FLATFORM")
+		APP_FLATFORM ON i.`flatformId` =
+		APP_FLATFORM.valueId
+		INNER JOIN (SELECT * FROM `app_category` WHERE
+		parentId IS NULL) category1
+		ON i.`categoryLevel1` = category1.id
+		INNER
+		JOIN (SELECT * FROM `app_category` WHERE parentId =1 OR parentId = 2)
+		category2 ON i.`categoryLevel2` = category2.id
+		INNER JOIN (SELECT *
+		FROM `app_category` WHERE parentId IS NOT NULL AND
+		parentId &lt;&gt; 1
+		AND parentId &lt;&gt; 2) category3 ON i.`categoryLevel3` =
+		category3.id where i.id=#{id}
+	</select>
+	<!-- 修改app_info表  -->
+	<update id="modifyAppInfo">
+		UPDATE `app_info`
+		set
+		<if test="softwareName!=null and softwareName!='' ">
+			softwareName=#{softwareName},
+		</if>
+		<if test="supportROM!=null and supportROM!= '' ">
+			supportROM=#{supportROM},
+		</if>
+		<if test="interfaceLanguage!=null and interfaceLanguage!='' ">
+			interfaceLanguage=#{interfaceLanguage},
+		</if>
+		<if test="softwareSize!=null">
+			softwareSize=#{softwareSize},
+		</if>
+		<if test="status!=null">
+			status=#{status},
+		</if>
+		<if test="downloads!=null">
+			downloads=#{downloads},
+		</if>
+		<if test="flatformId!=null">
+			flatformId=#{flatformId},
+		</if>
+		<if test="categoryLevel1!=null">
+			categoryLevel1=#{categoryLevel1},
+		</if>
+		<if test="categoryLevel2!=null">
+			categoryLevel2=#{categoryLevel2},
+		</if>
+		<if test="categoryLevel3!=null">
+			categoryLevel3=#{categoryLevel3},
+		</if>
+		<if test="appInfo!=null and appInfo!='' ">
+			appInfo=#{appInfo},
+		</if>
+		<if test="logoPicPath!=null and logoPicPath!='' ">
+			logoPicPath=#{logoPicPath},
+		</if>
+		<if test="logoLocPath!=null and logoLocPath!='' ">
+			logoLocPath=#{logoLocPath},
+		</if>
+		modifyDate = now(),
+		updateDate = now()
+
+		where id=#{id}
+	</update>
+	
+	<!-- 删除app_info表的数据 -->
+	<delete id="deleteAppInfoById">
+		delete from app_info where id=#{id}
+	</delete>
+	<!-- 修改app_info表的status字段   -->
+	<update id="updatestatusById">
+		UPDATE `app_info` SET status=#{status} where id=#{id}
+	</update>
+	<!-- 修改app_info表的versionId  -->
+	<update id="updateAppInfo_versionId">
+		update app_info set versionId=#{versionId} where id=#{id}
+	</update>
+	<!-- 修改 -->
+	<update id="updatestatus">
+		UPDATE `app_info` SET status=#{status} where id=#{id}
+	</update>
+</mapper>

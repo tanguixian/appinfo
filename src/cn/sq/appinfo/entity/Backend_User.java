@@ -5,29 +5,29 @@ import java.util.Date;
 
 /**
  * 
- *¹ÜÀíÔ±ÊµÌåÀà
+ *ç®¡ç†å‘˜å®ä½“ç±»
  * 
  */
 public class Backend_User implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
-	//Ö÷¼üid
+	//ä¸»é”®id 
 	private Integer id;
-	//ÓÃ»§±àÂë
+	//ç”¨æˆ·ç¼–ç   
 	private String userCode;
-	//ÓÃ»§Ãû³Æ
+	//ç”¨æˆ·åç§°
 	private String userName;
-	//ÓÃ»§½ÇÉ«ÀàĞÍ£¨À´Ô´ÓÚÊı¾İ×Öµä±í£¬·ÖÎª£º³¬¹Ü¡¢²ÆÎñ¡¢ÊĞ³¡¡¢ÔËÓª¡¢ÏúÊÛ£©
+	//ç”¨æˆ·è§’è‰²ç±»å‹ï¼ˆæ¥æºäºæ•°æ®å­—å…¸è¡¨ï¼Œåˆ†ä¸ºï¼šè¶…ç®¡ã€è´¢åŠ¡ã€å¸‚åœºã€è¿è¥ã€é”€å”®ï¼‰
 	private Integer userType;
-	//´´½¨Õß£¨À´Ô´ÓÚbackend_userÓÃ»§±íµÄÓÃ»§id£©
+	//åˆ›å»ºè€…ï¼ˆæ¥æºäºbackend_userç”¨æˆ·è¡¨çš„ç”¨æˆ·idï¼‰
 	private Integer createdBy;
-	//´´½¨Ê±¼ä
+	//åˆ›å»ºæ—¶é—´ 
 	private  Date creationDate;
-	//¸üĞÂÕß£¨À´Ô´ÓÚbackend_userÓÃ»§±íµÄÓÃ»§id£©
+	//æ›´æ–°è€…ï¼ˆæ¥æºäºbackend_userç”¨æˆ·è¡¨çš„ç”¨æˆ·idï¼‰
 	private Integer modifyBy;
-	//×îĞÂ¸üĞÂÊ±¼ä
+	//æœ€æ–°æ›´æ–°æ—¶é—´      
 	private Date modifyDate;
-	//ÓÃ»§ÃÜÂë
+	//ç”¨æˆ·å¯†ç 
 	private String userPassword;
 	public Integer getId() {
 		return id;
